@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Amazon Product Recommendation </title>
+    <style>
+      /* CSS code for the layout modifications */
+
+/* Main header */
+h1 {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  padding: 20px;
+  background-color: #0d47a1;
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+/* Set the background with a moving gradient animation */
+body {
+  background: linear-gradient(135deg, #0d47a1, #e1f5fe, #ffffff);
+  background-size: 400% 400%;
+  animation: moving-colors 10s ease-in-out infinite;
+}
+
+@keyframes moving-colors {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"] {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #3366CC;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #0059b3;
+}
+
+
+/* Product details section */
+.product-details {
+  margin-top: 30px;
+}
+
+.product-details table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #e2f3f5;
+  color: #000;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-details th,
+.product-details td {
+  padding: 8px;
+  border: 1px solid #85c0cd;
+  border-radius: 10px;
+}
+
+.product-details th {
+  background-color: #a9d4e2;
+}
+
+/* Similar products section */
+.similar-products {
+  margin-top: 30px;
+  background-color: #e2f3f5;
+  padding: 20px;
+  color: #000;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Complementary products section */
+.complementary-products {
+  margin-top: 30px;
+  background-color: #e2f3f5;
+  padding: 20px;
+  color: #000;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+  padding: 8px;
+  border: 1px solid #85c0cd;
+  border-radius: 10px;
+}
+
+table th {
+  background-color: #a9d4e2;
+}
+    </style>
+</head>
+<body>
+    <h1> Amazon Product Recommendation</h1>
+    <form method="POST" action="/">
+        <div class="input-container">
+            <input type="text" name="product_name" list="product_list" placeholder="Choose or search for the product name" required>
+            <datalist id="product_list">
+                {% for product in product_list %}
+                <option value="{{ product }}">{{ product }}</option>
+                {% endfor %}
+            </datalist>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    {% if product_details %}
+<div class="product-details">
+    <h2>Product Details</h2>
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <td>{{ product_details.product_name }}</td>
+        </tr>
+        <tr>
+            <th>About Product</th>
+            <td>{{ product_details.about_product }}</td>
+        </tr>
+        <tr>
+            <th>Review Title</th>
+            <td>{{ product_details.review_title }}</td>
+        </tr>
+        <tr>
+            <th>Actual Price</th>
+            <td>{{ product_details.actual_price }}</td>
+        </tr>
+        <tr>
+            <th>Discount Percentage</th>
+            <td>{{ product_details.discount_percentage }}</td>
+        </tr>
+        <tr>
+            <th>Discounted Price</th>
+            <td>{{ product_details.discounted_price }}</td>
+        </tr>
+    </table>
+    <img src="{{ product_details.img_link }}" alt="Product Image">
+</div>
+{% endif %}
+
+
+    {% if similar_products %}
+    <div class="similar-products">
+        <h2>Similar Products [Top 5]</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>About Product</th>
+                    <th>Review Title</th>
+                    <th>Actual Price</th>
+                    <th>Discount Percentage</th>
+                    <th>Discounted Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in similar_products %}
+                <tr>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.about_product }}</td>
+                    <td>{{ product.review_title }}</td>
+                    <td>{{ product.actual_price }}</td>
+                    <td>{{ product.discount_percentage }}</td>
+                    <td>{{ product.discounted_price }}</td>
+                    <td><img src="{{ product.img_link }}" alt="Product Image"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if complementary_products %}
+    <div class="complementary-products">
+        <h2>Complementary Products [Top 5]</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>About Product</th>
+                    <th>Review Title</th>
+                    <th>Actual Price</th>
+                    <th>Discount Percentage</th>
+                    <th>Discounted Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in complementary_products %}
+                <tr>
+                    <td>{{ product.product_name }}</td>
+                    <td>{{ product.about_product }}</td>
+                    <td>{{ product.review_title }}</td>
+                    <td>{{ product.actual_price }}</td>
+                    <td>{{ product.discount_percentage }}</td>
+                    <td>{{ product.discounted_price }}</td>
+                    <td><img src="{{ product.img_link }}" alt="Product Image"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</body>
+</html>
