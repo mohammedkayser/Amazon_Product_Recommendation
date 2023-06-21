@@ -20,7 +20,7 @@ The Amazon Product Recommendation System is designed to provide users with a sea
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/amazon-product-recommendation.git`
+1. Clone the repository: `git clone https://github./mohammedkayser/amazon-product-recommendation.git`
 
 2. Navigate to the project directory: `cd amazon-product-recommendation`
 
